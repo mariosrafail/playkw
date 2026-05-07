@@ -109,9 +109,21 @@ body {
 			<div id="status-notice"></div>
 		</div>
 
-		<script src="kw.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"kw","experimentalVK":false,"fileSizes":{"kw.pck":15932616,"kw.wasm":35739700},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+if (window.location.protocol === 'http:') {
+	// Temporary HTTP deployment fallback.
+	// Avoid WebAudio worklet path crashes on non-secure context.
+	try {
+		window.AudioContext = undefined;
+		window.webkitAudioContext = undefined;
+	} catch (e) {
+		console.warn('AudioContext disable fallback failed', e);
+	}
+}
+		</script>
+		<script src="kw.js?v=kwcom-hotfix1"></script>
+		<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"kw","experimentalVK":false,"fileSizes":{"kw.pck":15932616,"kw.wasm":35739700},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -162,9 +174,10 @@ const engine = new Engine(GODOT_CONFIG);
 		initializing = false;
 	}
 
-	const missing = Engine.getMissingFeatures({
+	let missing = Engine.getMissingFeatures({
 		threads: GODOT_THREADS_ENABLED,
 	});
+	missing = missing.filter((feature) => !String(feature).toLowerCase().includes('secure context'));
 
 	if (missing.length !== 0) {
 		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
@@ -217,4 +230,3 @@ const engine = new Engine(GODOT_CONFIG);
 		</script>
 	</body>
 </html>
-
