@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/auth/*"
+  to = "/.netlify/functions/auth-proxy/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/browserplay/*"
+  to = "/broswerplay/:splat"
+  status = 200
+  force = true
