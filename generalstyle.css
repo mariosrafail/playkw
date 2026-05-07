@@ -1,0 +1,129 @@
+﻿body{
+	font-family: 'kwfontregular';
+	font-weight: normal;
+	font-style: normal;
+	letter-spacing: 1px;
+	
+	background-image: url("images/body-background.png");
+	margin: 0px;
+	background-attachment: fixed;
+}
+
+.body-text{
+	text-align: center;
+	color: white;
+	text-shadow: -5px 5px 5px black;
+}
+
+.rights-text{
+	color: rgb(209, 209, 209);
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+@font-face {
+    font-family: 'kwfontregular';
+    src: url('fontkit/kwfont-webfont.woff2') format('woff2'),
+         url('fontkit/kwfont-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.interactive-target {
+	transform-origin: center center;
+	animation-name: idle-bob, button-flicker-soft;
+	animation-duration: var(--idle-duration, 1.35s), 2.8s;
+	animation-timing-function: steps(2, end), steps(2, end);
+	animation-iteration-count: infinite, infinite;
+	animation-direction: alternate, normal;
+	animation-delay: var(--idle-delay, 0s), 0s;
+	transition: transform 0.08s steps(2, end), color 0.08s steps(2, end), border-color 0.08s steps(2, end), box-shadow 0.08s steps(2, end), background-color 0.08s steps(2, end);
+	will-change: transform;
+}
+
+.interactive-target.cursor-near {
+	animation: none;
+	transform: scale(1.12);
+}
+
+.interactive-target:hover,
+.interactive-target:focus-visible {
+	animation: none;
+	transform: scale(1.42);
+	color: white !important;
+	border-color: white !important;
+	box-shadow: 0 0 26px rgba(255, 255, 255, 1);
+	transition-duration: 0.02s;
+	transition-timing-function: steps(2, end);
+}
+
+.interactive-target:hover img {
+	filter: brightness(0) invert(1);
+}
+
+.nav-menu .interactive-target:hover {
+	border-color: transparent !important;
+	box-shadow: none;
+}
+
+.nav-menu .interactive-target {
+	display: inline-block;
+}
+
+.nav-menu .interactive-target.cursor-near {
+	transform: scale(1.16);
+}
+
+.nav-menu .interactive-target:hover,
+.nav-menu .interactive-target:focus-visible {
+	transform: scale(1.55);
+	color: white !important;
+	transition-duration: 0.015s;
+}
+
+.play-now-btn.interactive-target:hover,
+.play-now-btn.interactive-target:focus-visible {
+	background-color: white !important;
+	color: black !important;
+}
+
+@keyframes idle-bob {
+	0% {
+		transform: translateY(0px) rotate(var(--idle-rot-start, 0deg)) scale(1);
+	}
+	100% {
+		transform: translateY(var(--idle-shift, -3px)) rotate(var(--idle-rot-end, 0deg)) scale(1);
+	}
+}
+
+@keyframes button-flicker-soft {
+	0%,
+	18%,
+	34%,
+	57%,
+	81%,
+	100% {
+		opacity: 1;
+		filter: brightness(1.04);
+	}
+	19%,
+	35%,
+	58%,
+	82% {
+		opacity: 0.93;
+		filter: brightness(0.96);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.interactive-target,
+	.interactive-target.cursor-near,
+	.interactive-target:hover {
+		animation: none;
+		transition: none;
+		transform: none;
+	}
+}
